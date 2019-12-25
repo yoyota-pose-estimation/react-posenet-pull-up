@@ -1,25 +1,43 @@
-import React from "react"
-import logo from "./logo.svg"
-import "./App.css"
+import React, { useCallback, useMemo } from "react"
+import PoseNet from "react-posenet"
+import usePullUpCounter from "./usePullUpCounter"
+import LocalStorageInput from "./components/LocalStorageInput"
+
+const modelConfig = {
+  architecture: "ResNet50",
+  quantBytes: 4
+}
+
+const inferenceConfig = {
+  decodingMethod: "single-person"
+}
 
 function App() {
+  const [count, checkPoses] = usePullUpCounter()
+  const onEstimate = useCallback(poses => checkPoses(poses), [checkPoses])
+  const input = useMemo(() => {
+    const camURL = localStorage.getItem("cam-url")
+    if (!camURL) return undefined
+    const image = new Image()
+    image.src = camURL
+    image.crossOrigin = ""
+    return image
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <LocalStorageInput label="InfluxDB URL" />
+      <LocalStorageInput label="CAM URL" />
+      <h1>{`Pull up count: ${count}`}</h1>
+      <PoseNet
+        className="min-vh-100"
+        facingMode="environment"
+        inferenceConfig={inferenceConfig}
+        input={input}
+        modelConfig={modelConfig}
+        onEstimate={onEstimate}
+      />
+    </>
   )
 }
 

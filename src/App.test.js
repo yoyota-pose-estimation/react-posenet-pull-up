@@ -1,9 +1,10 @@
 import React from "react"
+import "regenerator-runtime/runtime"
 import { render } from "@testing-library/react"
 import App from "./App"
 
-test("renders learn react link", () => {
+test("renders Pull up", () => {
   const { getByText } = render(<App />)
-  const linkElement = getByText(/learn react/i)
+  const linkElement = getByText(/Pull up/i)
   expect(linkElement).toBeInTheDocument()
 })
