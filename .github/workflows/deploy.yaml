@@ -25,7 +25,7 @@ jobs:
           node-version: 12.x
       - run: npm ci
       - run: npm run build
-      - run: echo "pullup.yoyota.dev" > ./build/CNAME
+      - run: echo "pullup.dudaji.com" > ./build/CNAME
       - name: deploy
         uses: peaceiris/actions-gh-pages@v2
         env:
