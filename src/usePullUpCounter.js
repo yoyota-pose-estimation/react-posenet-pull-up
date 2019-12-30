@@ -13,6 +13,7 @@ function reducer(count, action) {
     writeCount("pull_up", count)
     return 0
   }
+  writeCount("pull_up_notification", count + 1)
   return count + 1
 }
 
