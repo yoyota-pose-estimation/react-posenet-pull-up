@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import PoseNet from "react-posenet"
 import usePullUpCounter from "./usePullUpCounter"
 import LocalStorageInput from "./components/LocalStorageInput"
@@ -15,6 +15,18 @@ const inferenceConfig = {
 function App() {
   const [count, checkPoses] = usePullUpCounter()
   const onEstimate = useCallback(poses => checkPoses(poses), [checkPoses])
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      const fonts = document.getElementsByTagName("font")
+      const errorMessage = Array.from(fonts).some(
+        ({ innerText }) => innerText !== ""
+      )
+      if (errorMessage) window.location.reload()
+    }, 1000 * 60)
+    return () => clearInterval(id)
+  }, [])
+
   const input = useMemo(() => {
     const camURL = localStorage.getItem("cam-url")
     if (!camURL) return undefined
