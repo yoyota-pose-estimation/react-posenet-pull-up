@@ -9,12 +9,15 @@ function getKeypointsObject(pose) {
 }
 
 function reducer(count, action) {
-  if (action === "reset") {
+  if (action === "increment") {
+    writeCount("pull_up_notification", count + 1)
+    return count + 1
+  }
+  if ("reset" && count > 1) {
     writeCount("pull_up", count)
     return 0
   }
-  writeCount("pull_up_notification", count + 1)
-  return count + 1
+  return 0
 }
 
 export default function(sensitivity = 10) {

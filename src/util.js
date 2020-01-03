@@ -11,7 +11,6 @@ try {
 
 // eslint-disable-next-line import/prefer-default-export
 export function writeCount(measurement, count) {
-  if (count < 1) return
   influx.writePoints([
     {
       fields: { count },
