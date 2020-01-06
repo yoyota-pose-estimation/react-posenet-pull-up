@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime"
 import React, { useCallback, useEffect, useMemo } from "react"
 import PoseNet from "react-posenet"
 import usePullUpCounter from "./usePullUpCounter"
