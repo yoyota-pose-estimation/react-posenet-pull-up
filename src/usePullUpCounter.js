@@ -20,12 +20,14 @@ function reducer(count, action) {
   return 0
 }
 
-export default function(sensitivity = 5) {
+export default function(sensitivity = 10) {
   const [count, dispatch] = useReducer(reducer, 0)
   const standard = useRef(0)
   const checkPoses = useCallback(
     poses => {
-      if (poses.length !== 1) return
+      if (poses.length !== 1) {
+        return
+      }
 
       const {
         leftShoulder,
@@ -40,7 +42,9 @@ export default function(sensitivity = 5) {
 
       const elbow = leftElbow || rightElbow
       const shoulder = leftShoulder || rightShoulder
-      if (!elbow || !shoulder) return
+      if (!elbow || !shoulder) {
+        return
+      }
 
       const down = shoulder.y > elbow.y
       if (down) {
@@ -57,9 +61,13 @@ export default function(sensitivity = 5) {
 
       const hip = leftHip || rightHip
       const wrist = leftWrist || rightWrist
-      if (!hip || !wrist) return
+      if (!hip || !wrist) {
+        return
+      }
       const rest = wrist.y + sensitivity > hip.y
-      if (rest) dispatch("reset")
+      if (rest) {
+        dispatch("reset")
+      }
     },
     [sensitivity]
   )
