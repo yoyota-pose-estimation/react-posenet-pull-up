@@ -23,6 +23,20 @@ function reducer(count, action) {
 export default function(sensitivity = 10) {
   const [count, dispatch] = useReducer(reducer, 0)
   const standard = useRef(0)
+  const hangStartTime = useRef()
+  function setHangStatTime(date) {
+    if (!hangStartTime.current) {
+      hangStartTime.current = date
+    }
+  }
+  function writeHangTime() {
+    if (!hangStartTime.current) {
+      return
+    }
+    const elapsed = Math.round((new Date() - hangStartTime.current) / 1000)
+    writeCount("hanging", elapsed)
+    hangStartTime.current = null
+  }
   const checkPoses = useCallback(
     poses => {
       if (poses.length !== 1) {
@@ -49,6 +63,7 @@ export default function(sensitivity = 10) {
       const down = shoulder.y > elbow.y
       if (down) {
         standard.current = Math.max(standard.current, elbow.y)
+        setHangStatTime(new Date())
         return
       }
 
@@ -67,6 +82,7 @@ export default function(sensitivity = 10) {
       const rest = wrist.y + sensitivity > hip.y
       if (rest) {
         dispatch("reset")
+        writeHangTime()
       }
     },
     [sensitivity]
