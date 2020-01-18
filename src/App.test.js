@@ -4,6 +4,6 @@ import App from "./App"
 
 test("renders Pull up", () => {
   const { getByText } = render(<App />)
-  const linkElement = getByText(/Pull up/i)
-  expect(linkElement).toBeInTheDocument()
+  const pullUp = getByText(/Pull up/i)
+  expect(pullUp).toBeInTheDocument()
 })
