@@ -1,6 +1,6 @@
 import "regenerator-runtime/runtime"
 import React, { useCallback, useEffect, useMemo } from "react"
-import PoseNet from "react-posenet"
+import PoseNet from "@react-posenet/time"
 import usePullUpCounter from "./usePullUpCounter"
 import LocalStorageInput from "./components/LocalStorageInput"
 
