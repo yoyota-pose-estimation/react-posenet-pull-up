@@ -2,7 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
 import App from "./App"
+import { setReloadTimeout } from "./util"
 import * as serviceWorker from "./serviceWorker"
+
+setReloadTimeout()
 
 ReactDOM.render(<App />, document.getElementById("root"))
 
