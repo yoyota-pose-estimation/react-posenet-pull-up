@@ -1,5 +1,5 @@
 import { useRef, useReducer, useCallback } from "react"
-import { writeCount } from "./util"
+import { writeCount } from "../util"
 
 function getKeypointsObject(pose) {
   return pose.keypoints.reduce((acc, { part, position }) => {

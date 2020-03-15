@@ -1,7 +1,7 @@
 import "regenerator-runtime/runtime"
 import React, { useCallback, useEffect, useMemo } from "react"
 import PoseNet from "@react-posenet/time"
-import usePullUpCounter from "./usePullUpCounter"
+import usePullUpCounter from "./hooks/usePullUpCounter"
 import LocalStorageInput from "./components/LocalStorageInput"
 
 const modelConfig = {
