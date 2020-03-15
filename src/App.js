@@ -13,9 +13,25 @@ const inferenceConfig = {
   decodingMethod: "single-person"
 }
 
+function getKeypointsObject(pose) {
+  return pose.keypoints.reduce((acc, { part, position }) => {
+    acc[part] = position
+    return acc
+  }, {})
+}
+
 function App() {
-  const [count, checkPoses] = usePullUpCounter()
-  const onEstimate = useCallback(poses => checkPoses(poses), [checkPoses])
+  const [pullUpCount, checkPullUpPoses] = usePullUpCounter()
+  const onEstimate = useCallback(
+    poses => {
+      if (poses.length !== 1) {
+        return
+      }
+      const keyPointObject = getKeypointsObject(poses[0])
+      checkPullUpPoses(keyPointObject)
+    },
+    [checkPullUpPoses]
+  )
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -41,7 +57,7 @@ function App() {
     <>
       <LocalStorageInput label="InfluxDB URL" />
       <LocalStorageInput label="CAM URL" />
-      <h1>{`Pull up count: ${count}`}</h1>
+      <h1>{`Pull up count: ${pullUpCount}`}</h1>
       <PoseNet
         className="min-vh-100"
         facingMode="environment"
