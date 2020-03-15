@@ -1,13 +1,6 @@
 import { useRef, useReducer, useCallback } from "react"
 import { writeCount } from "../util"
 
-function getKeypointsObject(pose) {
-  return pose.keypoints.reduce((acc, { part, position }) => {
-    acc[part] = position
-    return acc
-  }, {})
-}
-
 function reducer(count, action) {
   if (action === "increment") {
     writeCount("pull_up_notification", count + 1)
@@ -24,22 +17,16 @@ export default function(sensitivity = 10) {
   const [count, dispatch] = useReducer(reducer, 0)
   const standard = useRef(0)
   const checkPoses = useCallback(
-    poses => {
-      if (poses.length !== 1) {
-        return
-      }
-
-      const {
-        leftShoulder,
-        rightShoulder,
-        leftElbow,
-        rightElbow,
-        leftWrist,
-        rightWrist,
-        leftHip,
-        rightHip
-      } = getKeypointsObject(poses[0])
-
+    ({
+      leftShoulder,
+      rightShoulder,
+      leftElbow,
+      rightElbow,
+      leftWrist,
+      rightWrist,
+      leftHip,
+      rightHip
+    }) => {
       const elbow = leftElbow || rightElbow
       const shoulder = leftShoulder || rightShoulder
       if (!elbow || !shoulder) {
