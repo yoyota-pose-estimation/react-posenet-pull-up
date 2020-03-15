@@ -16,7 +16,7 @@ function reducer(count, action) {
 export default function(sensitivity = 10) {
   const [count, dispatch] = useReducer(reducer, 0)
   const standard = useRef(0)
-  const checkPoses = useCallback(
+  const checkPose = useCallback(
     ({
       leftShoulder,
       rightShoulder,
@@ -58,5 +58,5 @@ export default function(sensitivity = 10) {
     },
     [sensitivity]
   )
-  return [count, checkPoses]
+  return [count, checkPose]
 }

@@ -10,20 +10,28 @@ import useOnEstimate from "./hooks/useOnEstimate"
 function App() {
   useReloadWhenError()
   const input = useInput()
-  const [counts, onEstimate] = useOnEstimate()
+  const [count, onEstimate] = useOnEstimate()
 
   return (
     <>
       <LocalStorageInput label="InfluxDB URL" />
       <LocalStorageInput label="CAM URL" />
-      <h1>{`Pull up count: ${counts.pullUpCount}`}</h1>
+      {Object.keys(count).map(key => {
+        return (
+          <h1 key={key}>
+            {key}: {count[key]}
+          </h1>
+        )
+      })}
+
       <PoseNet
+        input={input}
         className="min-vh-100"
         facingMode="environment"
-        inferenceConfig={inferenceConfig}
-        input={input}
-        modelConfig={modelConfig}
+        frameRate={30}
         onEstimate={onEstimate}
+        modelConfig={modelConfig}
+        inferenceConfig={inferenceConfig}
       />
     </>
   )
