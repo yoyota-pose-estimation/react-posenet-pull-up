@@ -1,54 +1,37 @@
 import "regenerator-runtime/runtime"
-import React, { useCallback, useEffect, useMemo } from "react"
+import React from "react"
 import PoseNet from "@react-posenet/time"
-import usePullUpCounter from "./usePullUpCounter"
+import { modelConfig, inferenceConfig } from "./config"
 import LocalStorageInput from "./components/LocalStorageInput"
-
-const modelConfig = {
-  architecture: "ResNet50",
-  quantBytes: 4
-}
-
-const inferenceConfig = {
-  decodingMethod: "single-person"
-}
+import useInput from "./hooks/useInput"
+import useReloadWhenError from "./hooks/useReloadWhenError"
+import useOnEstimate from "./hooks/useOnEstimate"
 
 function App() {
-  const [count, checkPoses] = usePullUpCounter()
-  const onEstimate = useCallback(poses => checkPoses(poses), [checkPoses])
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      const fonts = document.getElementsByTagName("font")
-      const errorMessage = Array.from(fonts).some(
-        ({ innerText }) => innerText !== ""
-      )
-      if (errorMessage) window.location.reload()
-    }, 1000 * 60)
-    return () => clearInterval(id)
-  }, [])
-
-  const input = useMemo(() => {
-    const camURL = localStorage.getItem("cam-url")
-    if (!camURL) return undefined
-    const image = new Image()
-    image.src = camURL
-    image.crossOrigin = ""
-    return image
-  }, [])
+  useReloadWhenError()
+  const input = useInput()
+  const [count, onEstimate] = useOnEstimate()
 
   return (
     <>
       <LocalStorageInput label="InfluxDB URL" />
       <LocalStorageInput label="CAM URL" />
-      <h1>{`Pull up count: ${count}`}</h1>
+      {Object.keys(count).map(key => {
+        return (
+          <h1 key={key}>
+            {key}: {count[key]}
+          </h1>
+        )
+      })}
+
       <PoseNet
+        input={input}
         className="min-vh-100"
         facingMode="environment"
-        inferenceConfig={inferenceConfig}
-        input={input}
-        modelConfig={modelConfig}
+        frameRate={30}
         onEstimate={onEstimate}
+        modelConfig={modelConfig}
+        inferenceConfig={inferenceConfig}
       />
     </>
   )
