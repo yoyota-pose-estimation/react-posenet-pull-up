@@ -14,25 +14,28 @@ function App() {
 
   return (
     <>
+      <div className="d-flex">
+        <PoseNet
+          input={input}
+          facingMode="environment"
+          frameRate={40}
+          onEstimate={onEstimate}
+          minPartConfidence={0.75}
+          modelConfig={modelConfig}
+          inferenceConfig={inferenceConfig}
+        />
+        <div>
+          {Object.keys(count).map(key => {
+            return (
+              <h1 key={key}>
+                {key}: {count[key]}
+              </h1>
+            )
+          })}
+        </div>
+      </div>
       <LocalStorageInput label="InfluxDB URL" />
       <LocalStorageInput label="CAM URL" />
-      {Object.keys(count).map(key => {
-        return (
-          <h1 key={key}>
-            {key}: {count[key]}
-          </h1>
-        )
-      })}
-
-      <PoseNet
-        input={input}
-        className="min-vh-100"
-        facingMode="environment"
-        frameRate={30}
-        onEstimate={onEstimate}
-        modelConfig={modelConfig}
-        inferenceConfig={inferenceConfig}
-      />
     </>
   )
 }
