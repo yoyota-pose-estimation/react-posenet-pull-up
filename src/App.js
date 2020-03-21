@@ -1,6 +1,6 @@
 import "regenerator-runtime/runtime"
 import React from "react"
-import PoseNet from "@react-posenet/time"
+import PoseNet from "react-posenet"
 import { modelConfig, inferenceConfig } from "./config"
 import LocalStorageInput from "./components/LocalStorageInput"
 import useInput from "./hooks/useInput"
@@ -17,8 +17,9 @@ function App() {
       <div className="d-flex">
         <PoseNet
           input={input}
+          className="w-75"
           facingMode="environment"
-          frameRate={40}
+          frameRate={50}
           onEstimate={onEstimate}
           minPartConfidence={0.75}
           modelConfig={modelConfig}
