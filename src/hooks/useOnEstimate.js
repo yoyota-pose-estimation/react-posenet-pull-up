@@ -1,4 +1,5 @@
 import { useCallback } from "react"
+import useSquatCounter from "./useSquatCounter"
 import usePullUpCounter from "./usePullUpCounter"
 import useHangingLegRaiseCounter from "./useHangingLegRaiseCounter"
 
@@ -12,6 +13,7 @@ function getKeypointsObject(pose) {
 export default function useOnEstimate() {
   const [pullUpCount, checkPullUpPose] = usePullUpCounter()
   const [legRaiseCount, checkLegRaisePose] = useHangingLegRaiseCounter()
+  const [squatCount, checkSquatPose] = useSquatCounter()
   const onEstimate = useCallback(
     poses => {
       if (poses.length !== 1) {
@@ -20,8 +22,9 @@ export default function useOnEstimate() {
       const keyPointObject = getKeypointsObject(poses[0])
       checkPullUpPose(keyPointObject)
       checkLegRaisePose(keyPointObject)
+      checkSquatPose(keyPointObject)
     },
-    [checkLegRaisePose, checkPullUpPose]
+    [checkLegRaisePose, checkPullUpPose, checkSquatPose]
   )
-  return [{ pullUpCount, legRaiseCount }, onEstimate]
+  return [{ squatCount, pullUpCount, legRaiseCount }, onEstimate]
 }
