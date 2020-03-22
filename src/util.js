@@ -12,12 +12,17 @@ try {
 
 // eslint-disable-next-line import/prefer-default-export
 export function writeCount(measurement, count) {
-  influx.writePoints([
-    {
-      fields: { count },
-      measurement
-    }
-  ])
+  try {
+    influx.writePoints([
+      {
+        fields: { count },
+        measurement
+      }
+    ])
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e)
+  }
 }
 
 export function setReloadTimeout(now = dayjs(), hour = 6) {
