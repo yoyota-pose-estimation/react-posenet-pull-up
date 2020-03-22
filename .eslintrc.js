@@ -19,6 +19,7 @@ module.exports = {
     "react/jsx-filename-extension": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "jsx-a11y/media-has-caption": "off",
     "import/no-extraneous-dependencies": "off",
     "no-unused-vars": [
       "error",
