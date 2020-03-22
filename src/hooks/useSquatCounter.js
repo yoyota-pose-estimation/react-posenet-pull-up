@@ -33,7 +33,7 @@ export default function(sensitivity = 80) {
         downRef.current = false
         return
       }
-      const rest = leftEar || rightEar
+      const rest = leftEar && rightEar
       if (rest) {
         dispatch("reset")
       }
