@@ -20,7 +20,7 @@ function App() {
       <div className="d-flex">
         <PoseNet
           input={input}
-          className="vh-100"
+          className="h-75"
           facingMode="environment"
           frameRate={30}
           onEstimate={onEstimate}

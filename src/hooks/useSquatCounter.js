@@ -13,18 +13,22 @@ function reducer(count, action) {
   return 0
 }
 
-export default function(sensitivity = 30) {
+export default function(sensitivity = 100) {
   const [count, dispatch] = useReducer(reducer, 0)
   const downRef = useRef(0)
   const checkPoses = useCallback(
     ({ leftEar, rightEar, leftKnee, rightKnee, leftHip, rightHip }) => {
-      const hip = leftHip || rightHip
-      const knee = leftKnee || rightKnee
+      let hip = leftHip
+      let knee = leftKnee
+      if (!hip || !knee) {
+        hip = rightHip
+        knee = rightKnee
+      }
       if (!hip || !knee) {
         return
       }
-      const distance = Math.abs(hip.y - knee.y)
-      if (distance < sensitivity) {
+      const distance = Math.abs(hip.x - knee.x)
+      if (distance > sensitivity) {
         downRef.current += 1
         return
       }
