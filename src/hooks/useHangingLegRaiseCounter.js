@@ -13,31 +13,41 @@ function reducer(count, action) {
   return 0
 }
 
-export default function(sensitivity = 70) {
+export default function(sensitivity = 250) {
   const [count, dispatch] = useReducer(reducer, 0)
-  const upRef = useRef(false)
+  const upRef = useRef(0)
   const checkPoses = useCallback(
-    ({ leftWrist, rightWrist, leftAnkle, rightAnkle, leftHip, rightHip }) => {
-      const hip = leftHip || rightHip
+    ({
+      leftWrist,
+      rightWrist,
+      leftAnkle,
+      rightAnkle,
+      leftShoulder,
+      rightShoulder,
+      leftHip,
+      rightHip
+    }) => {
       const ankle = leftAnkle || rightAnkle
-      if (!hip || !ankle) {
+      const shoulder = leftShoulder || rightShoulder
+      if (!ankle || !shoulder) {
         return
       }
-      const distance = Math.abs(ankle.y - hip.y)
+      const distance = Math.abs(ankle.y - shoulder.y)
       if (distance < sensitivity) {
-        upRef.current = true
+        upRef.current += 1
         return
       }
-      if (upRef.current) {
+      if (upRef.current > 10) {
         dispatch("increment")
-        upRef.current = false
+        upRef.current = 0
         return
       }
+      const hip = leftHip || rightHip
       const wrist = leftWrist || rightWrist
-      if (!wrist) {
+      if (!hip || !wrist) {
         return
       }
-      const rest = wrist.y + sensitivity > hip.y
+      const rest = wrist.y + sensitivity / 10 > hip.y
       if (rest) {
         dispatch("reset")
       }
