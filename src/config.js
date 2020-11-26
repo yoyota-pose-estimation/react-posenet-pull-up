@@ -1,7 +1,5 @@
 export const modelConfig = {
-  architecture: "ResNet50",
-  quantBytes: 4,
-  outputStride: 16
+  architecture: "MobileNetV1"
 }
 
 export const inferenceConfig = {
