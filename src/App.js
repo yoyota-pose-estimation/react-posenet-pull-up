@@ -22,7 +22,7 @@ function App() {
           input={input}
           className="min-vh-100"
           facingMode="environment"
-          frameRate={10}
+          frameRate={15}
           onEstimate={onEstimate}
           minPartConfidence={0.75}
           modelConfig={modelConfig}
